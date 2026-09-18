@@ -1,0 +1,69 @@
+/*
+================================================================================
+  POWER BI DAX MEASURES LIBRARY
+  Project: A/B Test Analysis — Marketing Campaign & Landing Page Conversion
+================================================================================
+*/
+
+// 1. Total Visitors (Sample Size)
+Total_Visitors = COUNTROWS('ab_test_cleaned')
+
+// 2. Control & Treatment Visitors
+Visitors_Control = CALCULATE([Total_Visitors], 'ab_test_cleaned'[group] = "control")
+Visitors_Treatment = CALCULATE([Total_Visitors], 'ab_test_cleaned'[group] = "treatment")
+
+// 3. Traffic Split Ratio (SRM Indicator)
+Traffic_Split_Control = DIVIDE([Visitors_Control], [Total_Visitors], 0)
+Traffic_Split_Treatment = DIVIDE([Visitors_Treatment], [Total_Visitors], 0)
+
+// 4. SRM Chi-Square Diagnostic Alert
+SRM_Status = 
+VAR ObsCtrl = [Visitors_Control]
+VAR ObsTreat = [Visitors_Treatment]
+VAR ExpEach = [Total_Visitors] / 2
+VAR ChiSquare = DIVIDE((ObsCtrl - ExpEach)^2, ExpEach) + DIVIDE((ObsTreat - ExpEach)^2, ExpEach)
+RETURN
+IF(ChiSquare > 6.635, "⚠️ CRITICAL SRM DETECTED (p < 0.01)", "✅ PASSED (No SRM)")
+
+// 5. Converters Count
+Total_Converters = SUM('ab_test_cleaned'[converted])
+Converters_Control = CALCULATE([Total_Converters], 'ab_test_cleaned'[group] = "control")
+Converters_Treatment = CALCULATE([Total_Converters], 'ab_test_cleaned'[group] = "treatment")
+
+// 6. Conversion Rate (CR)
+Conversion_Rate = DIVIDE([Total_Converters], [Total_Visitors], 0)
+CR_Control = CALCULATE([Conversion_Rate], 'ab_test_cleaned'[group] = "control")
+CR_Treatment = CALCULATE([Conversion_Rate], 'ab_test_cleaned'[group] = "treatment")
+
+// 7. Absolute & Relative Conversion Lift
+Absolute_Lift = [CR_Treatment] - [CR_Control]
+Relative_Lift_Pct = DIVIDE([CR_Treatment] - [CR_Control], [CR_Control], 0)
+
+// 8. Pooled Standard Error & Z-Score
+Pooled_CR = DIVIDE([Converters_Control] + [Converters_Treatment], [Visitors_Control] + [Visitors_Treatment], 0)
+Pooled_SE = SQRT( [Pooled_CR] * (1 - [Pooled_CR]) * ( (1 / [Visitors_Control]) + (1 / [Visitors_Treatment]) ) )
+Z_Statistic = DIVIDE([CR_Treatment] - [CR_Control], [Pooled_SE], 0)
+
+// 9. Statistical Significance (at alpha = 0.05, critical Z = 1.96)
+Is_Statistically_Significant = 
+IF(ABS([Z_Statistic]) >= 1.96, "Significant (p < 0.05)", "Not Significant (p >= 0.05)")
+
+// 10. 95% Confidence Intervals for Relative Lift
+Unpooled_SE_Diff = SQRT( DIVIDE([CR_Control] * (1 - [CR_Control]), [Visitors_Control]) + DIVIDE([CR_Treatment] * (1 - [CR_Treatment]), [Visitors_Treatment]) )
+CI_95_Lower_Relative = [Relative_Lift_Pct] - (1.96 * DIVIDE([Unpooled_SE_Diff], [CR_Control], 0))
+CI_95_Upper_Relative = [Relative_Lift_Pct] + (1.96 * DIVIDE([Unpooled_SE_Diff], [CR_Control], 0))
+
+// 11. Revenue & Average Revenue Per User (ARPU)
+Total_Revenue = SUM('ab_test_cleaned'[revenue])
+Revenue_Control = CALCULATE([Total_Revenue], 'ab_test_cleaned'[group] = "control")
+Revenue_Treatment = CALCULATE([Total_Revenue], 'ab_test_cleaned'[group] = "treatment")
+ARPU = DIVIDE([Total_Revenue], [Total_Visitors], 0)
+ARPU_Control = CALCULATE([ARPU], 'ab_test_cleaned'[group] = "control")
+ARPU_Treatment = CALCULATE([ARPU], 'ab_test_cleaned'[group] = "treatment")
+ARPU_Relative_Lift = DIVIDE([ARPU_Treatment] - [ARPU_Control], [ARPU_Control], 0)
+
+// 12. Average Session Duration (seconds)
+Avg_Session_Duration = AVERAGE('ab_test_cleaned'[session_duration_sec])
+Duration_Control = CALCULATE([Avg_Session_Duration], 'ab_test_cleaned'[group] = "control")
+Duration_Treatment = CALCULATE([Avg_Session_Duration], 'ab_test_cleaned'[group] = "treatment")
+Duration_Lift_Pct = DIVIDE([Duration_Treatment] - [Duration_Control], [Duration_Control], 0)
