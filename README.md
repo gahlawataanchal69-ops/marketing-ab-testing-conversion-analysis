@@ -1,148 +1,245 @@
-# 🎯 A/B Test Analysis: Marketing Campaign & Landing Page Conversion Optimization
+<div align="center">
 
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Pandas](https://img.shields.io/badge/Pandas-2.0+-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![Statsmodels](https://img.shields.io/badge/Statsmodels-0.14+-005571)](https://www.statsmodels.org/)
-[![PowerBI](https://img.shields.io/badge/Power_BI-Interactive_Dashboard-F2C811?logo=powerbi&logoColor=black)](./powerbi/)
-[![Status](https://img.shields.io/badge/Experiment_Status-SHIP_VARIANT_B-22C55E)](#-ship--no-ship-recommendation)
+# 🚀 A/B Test Analysis: Landing Page & Marketing Conversion Optimization
+### *Statistical Rigor Meets Business Impact: Evaluating a +11.06% Conversion Uplift & +$1.45M Annualized ROI*
 
----
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Pandas](https://img.shields.io/badge/Pandas-2.0+-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![SciPy](https://img.shields.io/badge/SciPy-1.10+-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white)](https://scipy.org/)
+[![Statsmodels](https://img.shields.io/badge/Statsmodels-0.14+-005571?style=for-the-badge)](https://www.statsmodels.org/)
+[![Power BI](https://img.shields.io/badge/Power_BI-Interactive_Dashboard-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](./powerbi/)
+[![Experiment Decision](https://img.shields.io/badge/FINAL_DECISION-100%25_ROLLOUT_(SHIP)-22C55E?style=for-the-badge)](#-8-executive-ship--no-ship-recommendation)
 
-## 📌 1. Project Overview & Business Problem
-
-An e-commerce company launched an A/B test on their primary paid marketing acquisition landing page to evaluate whether a redesigned user experience (Variant B / Treatment) with streamlined navigation, social proof badges, and enhanced value proposition improves visitor conversion rate and average revenue per user over the incumbent baseline (Variant A / Control).
-
-### 🎯 Key Business Questions
-1. **Conversion Lift**: Does the new landing page statistically significantly increase visitor-to-customer conversion rate ($CR$)?
-2. **Revenue Impact**: Does the new design increase Average Revenue Per User ($ARPU$) without degrading average order value?
-3. **Validity & Power**: Was the test adequately powered, and is there any evidence of Sample Ratio Mismatch ($SRM$)?
-4. **Subgroup Consistency**: Is the lift consistent across devices (Mobile vs. Desktop), marketing channels, and user tiers, or is there evidence of **Simpson's Paradox**?
-5. **Decision**: Based on statistical and practical significance, should we **Ship (100% rollout)** or **No-Ship**?
-
----
-
-## 🔬 2. Hypotheses Formulation & Statistical Methodology
-
-### A. Primary Metric: Conversion Rate ($CR$)
-- **Null Hypothesis ($H_0$)**: The new landing page does not increase conversion rate ($p_{\text{treatment}} \le p_{\text{control}}$).
-- **Alternative Hypothesis ($H_1$)**: The new landing page significantly increases conversion rate ($p_{\text{treatment}} > p_{\text{control}}$).
-- **Statistical Test**: **Two-Proportion Z-Test** (pooled variance) with **95% Wilson Score Confidence Intervals**.
-- **Significance Level**: $\alpha = 0.05$ (two-tailed).
-
-### B. Secondary Continuous Metrics: ARPU ($Revenue / Visitor$) & Session Duration
-- **Null Hypothesis ($H_0$)**: $\mu_{\text{treatment}} = \mu_{\text{control}}$
-- **Alternative Hypothesis ($H_1$)**: $\mu_{\text{treatment}} \neq \mu_{\text{control}}$
-- **Statistical Test**: **Welch's Two-Sample t-Test** (robust to unequal variances) & **Mann-Whitney U** rank-sum test.
-
-### C. Experimental Guardrail: Sample Ratio Mismatch ($SRM$)
-- **Test**: **Chi-Square Goodness-of-Fit ($\chi^2$)** test comparing observed vs. expected 50:50 traffic allocation at $\alpha = 0.01$.
-
----
-
-## 📊 3. Key Statistical Findings & Test Results
-
-| Experiment Metric | Control (Old Page) | Treatment (New Page) | Absolute Lift | Relative Lift | 95% Confidence Interval | Test Statistic | P-Value | Statistical Verdict |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Sample Size ($N$)** | 37,166 (49.88%) | 37,347 (50.12%) | +181 | — | — | $\chi^2 = 0.4397$ | $p = 0.5073$ | **Passed (No SRM)** |
-| **Conversion Rate (CR)** | **13.01%** | **14.45%** | **+1.44%** | **+11.06%** | **[+7.26%, +14.86%]** | $Z = 5.7069$ | **$1.15 \times 10^{-8}$** | **Statistically Significant ($p < 0.001$)** |
-| **ARPU (Revenue/User)** | **$8.18** | **$8.99** | **+$0.81** | **+9.85%** | **[+$0.47, +$1.14]** | $t = 4.7758$ | **$1.79 \times 10^{-6}$** | **Statistically Significant ($p < 0.001$)** |
-| **Session Duration** | 214.8 sec | 239.6 sec | +24.9 sec | +11.58% | [+23.0s, +26.8s] | $t = 25.40$ | $p < 10^{-100}$ | **Statistically Significant ($p < 0.001$)** |
-
----
-
-## ⚡ 4. Statistical Power & Sample Size Analysis
-
-- **Pre-Experiment Sizing (MDE = 5% Relative Lift)**: Required $n = 42,876$ users/variant ($\alpha = 0.05, 1 - \beta = 0.80$).
-- **Pre-Experiment Sizing (MDE = 10% Relative Lift)**: Required $n = 10,939$ users/variant.
-- **Actual Experiment Sample Size**: **$37,166$ users in Control** and **$37,347$ users in Treatment** (Total: **$74,513$ users**).
-- **Post-Hoc Achieved Statistical Power**: **$99.99\%$** for the observed $+11.06\%$ conversion lift.
-- **Conclusion**: The test was robustly powered, with virtually zero risk of Type II (false negative) error.
+<br/>
 
 ```
-Statistical Power vs Sample Size Curves:
------------------------------------------------------------------------------------
-Lift       | N=5,000 | N=10,000 | N=20,000 | N=37,166 (Actual) | Target (80%)
------------------------------------------------------------------------------------
-3% Lift    |  7.2%   |   9.8%   |  15.1%   |     24.2%         | Underpowered
-5% Lift    | 12.4%   |  20.1%   |  35.2%   |     73.1%         | Adequate
-10% Lift   | 32.5%   |  57.8%   |  86.4%   |     99.4%         | Highly Powered
-11% (Obs)  | 38.1%   |  65.2%   |  92.1%   |     99.99%        | EXTREMELY ROBUST
------------------------------------------------------------------------------------
+  ┌───────────────────────────┬───────────────────────────┬───────────────────────────┐
+  │   74,513 Unique Users     │   +11.06% Relative Lift   │    +$1.458M Annual ARR    │
+  │  (Zero SRM Bias, p=0.51)  │    (Z = 5.71, p < 1e-7)   │  (Payback Period: 7 Days) │
+  └───────────────────────────┴───────────────────────────┴───────────────────────────┘
+```
+
+</div>
+
+---
+
+## 🧭 Executive TL;DR & Decision Matrix
+
+| Question | Finding | Evidence | Verdict |
+|:---|:---|:---|:---:|
+| **Did conversion improve?** | **+1.44% Absolute Lift** (14.45% vs 13.01%) | $Z = 5.7069,\ p = 1.15 \times 10^{-8}$ | 🟢 **Significant** |
+| **Did revenue increase?** | **+9.85% Lift in ARPU** ($8.99 vs $8.18) | Welch's $t = 4.7758,\ p = 1.79 \times 10^{-6}$ | 🟢 **Significant** |
+| **Is the data corrupted?** | Observed 49.88% vs 50.12% split | Chi-Square $\chi^2 = 0.4397,\ p = 0.5073$ | 🟢 **No SRM** |
+| **Was the test adequately powered?** | Sample $N=74,513$ (Required: $10,939$ for 10% MDE) | Post-Hoc Statistical Power = **99.99%** | 🟢 **High Power** |
+| **Did any subgroup perform worse?** | Lift is positive across Mobile, Desktop, Email, Ads | Simpson's Paradox Audit: **PASSED** | 🟢 **Safe Rollout** |
+| **What is the bottom-line action?** | **SHIP VARIANT B TO 100% OF USERS** | Expected Annualized Value: **+$1.458M ARR** | 🚀 **SHIP** |
+
+---
+
+## 📖 Table of Contents
+1. [Business Problem & Hypotheses](#-1-the-business-problem--hypotheses)
+2. [Experiment Architecture & Data Flow](#-2-experiment-architecture--data-flow)
+3. [Data Quality & Sample Ratio Mismatch (SRM)](#-3-data-quality--sample-ratio-mismatch-srm-audit)
+4. [Statistical Hypothesis Testing](#-4-statistical-hypothesis-testing)
+5. [Power Analysis & Sample Sizing](#-5-power-analysis--sample-sizing)
+6. [Subgroup Segmentation & Simpson's Paradox](#-6-subgroup-segmentation--simpsons-paradox)
+7. [Visual Insights & Diagnostics](#-7-visual-insights--diagnostics)
+8. [Executive Ship / No-Ship Recommendation](#-8-executive-ship--no-ship-recommendation)
+9. [Power BI & Interactive Dashboard](#-9-power-bi--interactive-dashboard)
+10. [Repository Structure & Quickstart](#-10-repository-structure--reproducibility)
+
+---
+
+## 🎯 1. The Business Problem & Hypotheses
+
+An e-commerce brand tested a completely redesigned landing page (Variant B / Treatment) featuring streamlined checkout cues, dynamic customer proof badges, and faster value proposition delivery.
+
+```
+       Control (Variant A)                        Treatment (Variant B)
+  ┌───────────────────────────┐              ┌───────────────────────────┐
+  │ • Legacy multi-step CTA   │              │ • 1-Click Sticky CTA      │
+  │ • Generic hero banner     │     VS       │ • Dynamic Social Proof    │
+  │ • Static product layout   │              │ • Streamlined Value Grid  │
+  └───────────────────────────┘              └───────────────────────────┘
+```
+
+### Stated Statistical Hypotheses
+
+#### 🔹 Primary Metric: Visitor Conversion Rate ($CR = \frac{\text{Converters}}{\text{Visitors}}$)
+- **Null Hypothesis ($H_0$)**: The new landing page does not improve conversion rate ($p_{\text{treatment}} - p_{\text{control}} \le 0$).
+- **Alternative Hypothesis ($H_1$)**: The new landing page significantly increases conversion rate ($p_{\text{treatment}} - p_{\text{control}} > 0$).
+- **Test**: Two-Proportion Z-Test with pooled standard error and 95% Wilson Score CIs ($\alpha = 0.05$).
+
+#### 🔹 Secondary Metric: Average Revenue Per User ($ARPU = \frac{\text{Gross Spend}}{\text{Visitors}}$)
+- **Null Hypothesis ($H_0$)**: Mean visitor revenue is identical ($\mu_{\text{treatment}} = \mu_{\text{control}}$).
+- **Alternative Hypothesis ($H_1$)**: Mean visitor revenue differs ($\mu_{\text{treatment}} \neq \mu_{\text{control}}$).
+- **Test**: Welch's Two-Sample t-Test (robust to unequal variances and zero-inflated spend distributions).
+
+---
+
+## 🏗️ 2. Experiment Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    A[120,000 Raw Web Sessions] --> B[Data Cleaning & Integrity Engine]
+    B -->|Remove 240 Routing Mismatches| C[Routing Validated Traffic]
+    C -->|Deduplicate 45,247 Revisits| D[74,513 Unique User Exposures]
+    
+    D --> E{SRM Chi-Square Test}
+    E -->|p = 0.5073 > 0.01| F[Traffic Split Confirmed 50:50]
+    
+    F --> G[Primary Z-Test: Conversion Rate]
+    F --> H[Welch t-Test: ARPU & Session Duration]
+    F --> I[Subgroup & Simpson's Paradox Audit]
+    F --> J[Power Curve & Sample Sizing]
+    
+    G --> K[Executive Decision: SHIP TO 100%]
+    H --> K
+    I --> K
+    J --> K
 ```
 
 ---
 
-## 🔍 5. Segmentation & Simpson's Paradox Audit
+## 🛡️ 3. Data Quality & Sample Ratio Mismatch (SRM) Audit
 
-To ensure the aggregate conversion lift wasn't an artifact of composition bias (**Simpson's Paradox**), we sliced performance across four key dimensions:
+Before interpreting results, we run a **Sample Ratio Mismatch (SRM)** check to protect against routing bugs, bot skew, or dropped telemetry.
 
-1. **Device Form Factor**:
-   - **Desktop**: $+11.04\%$ Lift ($17.1\%$ vs $15.4\%$, $p < 0.001$)
-   - **Mobile**: $+10.92\%$ Lift ($13.2\%$ vs $11.9\%$, $p < 0.001$)
-   - **Tablet**: $+11.19\%$ Lift ($14.9\%$ vs $13.4\%$, $p < 0.001$)
-2. **Marketing Channels**: Positive lift across all acquisition streams: Email ($+11.0\%$), Search PPC ($+11.3\%$), Direct ($+11.5\%$), Social Ads ($+10.8\%$).
-3. **User Tiers**: Highest lift observed in **VIP / Loyalty** customers ($+13.8\%$) and **New Visitors** ($+10.9\%$).
-4. **Simpson's Paradox Conclusion**: **PASSED**. The treatment effect direction is positive and consistent across all sub-populations.
+$$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}$$
 
----
+<div align="center">
+  <img src="reports/figures/01_srm_check.png" width="750px" alt="Sample Ratio Mismatch Check" />
+</div>
 
-## 📈 6. Key Visualizations
-
-| Diagnostic / Figure | Description |
-|:---|:---|
-| **[01_srm_check.png](reports/figures/01_srm_check.png)** | Sample Ratio Mismatch check ($49.88\%$ vs $50.12\%$, $\chi^2 = 0.44, p = 0.51$). |
-| **[02_conversion_rate_ci.png](reports/figures/02_conversion_rate_ci.png)** | Conversion Rate bar chart with 95% Wilson Score confidence intervals. |
-| **[03_daily_trend_conversion.png](reports/figures/03_daily_trend_conversion.png)** | Daily instantaneous and cumulative conversion rate convergence over 30 days. |
-| **[04_revenue_distribution.png](reports/figures/04_revenue_distribution.png)** | ARPU comparison and log-transformed order spend distributions. |
-| **[05_statistical_power_curve.png](reports/figures/05_statistical_power_curve.png)** | Power vs. sample size sizing curves across variable MDEs. |
-| **[06_segmentation_forest_plot.png](reports/figures/06_segmentation_forest_plot.png)** | Forest plot with 95% CIs across all dimensions confirming no Simpson's Paradox. |
+- **Observed Control Count**: $37,166$ ($49.879\%$)
+- **Observed Treatment Count**: $37,347$ ($50.121\%$)
+- **Chi-Square Statistic ($\chi^2$)**: $0.4397$
+- **P-Value**: $0.5073$ (well above alert threshold $\alpha = 0.01$)
+- **Audit Verdict**: ✅ **PASSED**. No allocation bias detected.
 
 ---
 
-## 💼 7. Practical Significance & Business Impact (ROI)
+## 📊 4. Statistical Hypothesis Testing
 
-Statistical significance alone is insufficient to justify deployment costs. We conducted a practical financial ROI assessment:
+### Summary of Statistical Tests
 
-- **Baseline Monthly Traffic**: ~150,000 unique landing page visitors.
+| Metric | Control (A) | Treatment (B) | Delta ($\Delta$) | Relative Lift | 95% Confidence Interval | Test Statistic | P-Value |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Conversion Rate** | **13.01%** | **14.45%** | **+1.44%** | **+11.06%** | **[+7.26%, +14.86%]** | $Z = 5.7069$ | **$1.15 \times 10^{-8}$** |
+| **ARPU ($)** | **$8.18** | **$8.99** | **+$0.81** | **+9.85%** | **[+$0.47, +$1.14]** | $t = 4.7758$ | **$1.79 \times 10^{-6}$** |
+| **Session Duration** | 214.8s | 239.6s | +24.9s | +11.58% | [+23.0s, +26.8s] | $t = 25.40$ | $< 1.0 \times 10^{-100}$ |
+
+<div align="center">
+  <img src="reports/figures/02_conversion_rate_ci.png" width="600px" alt="Conversion Rate with Confidence Intervals" />
+</div>
+
+> **Interpretation**: The $p$-value ($1.15 \times 10^{-8}$) is far below $\alpha = 0.05$. There is less than a **1 in 80 million chance** that this conversion uplift occurred by random variation alone.
+
+---
+
+## ⚡ 5. Power Analysis & Sample Sizing
+
+To demonstrate experimental maturity, we evaluated both **pre-test sample sizing** and **post-hoc achieved power**:
+
+<div align="center">
+  <img src="reports/figures/05_statistical_power_curve.png" width="750px" alt="Statistical Power Curves" />
+</div>
+
+- **Target Minimum Detectable Effect (MDE)**: $+10\%$ relative lift $\rightarrow$ Required $n = 10,939$ users/group.
+- **Actual Sample Collected**: $n = 37,166$ users/group ($3.4\times$ the required threshold).
+- **Post-Hoc Achieved Power**: **$99.99\%$** ($>80\%$ industry benchmark).
+- **Risk Assessment**: Negligible risk of Type II (False Negative) errors.
+
+---
+
+## 🔍 6. Subgroup Segmentation & Simpson's Paradox
+
+A critical pitfall in A/B testing is **Simpson's Paradox**—where an aggregate positive lift reverses or harms a specific customer segment. We decomposed the results across 4 key dimensions:
+
+<div align="center">
+  <img src="reports/figures/06_segmentation_forest_plot.png" width="850px" alt="Subgroup Forest Plot" />
+</div>
+
+### Subgroup Lift Highlights
+- 📱 **Mobile Visitors** (52% of traffic): $+10.92\%$ Lift ($13.2\%$ vs $11.9\%$, $p < 0.001$)
+- 💻 **Desktop Visitors** (36% of traffic): $+11.04\%$ Lift ($17.1\%$ vs $15.4\%$, $p < 0.001$)
+- ✉️ **Email Campaign Traffic**: $+11.01\%$ Lift ($18.2\%$ vs $16.4\%$, $p < 0.001$)
+- 👑 **VIP / Loyalty Customers**: $+13.80\%$ Lift ($24.8\%$ vs $21.8\%$, $p < 0.001$)
+- **Audit Verdict**: ✅ **PASSED**. All segments demonstrate strictly positive conversion lift.
+
+---
+
+## 📈 7. Visual Insights & Diagnostics
+
+### 30-Day Conversion Trajectory & Convergence
+The cumulative conversion rate converged smoothly after Day 8, maintaining a stable and persistent gap through Day 30.
+
+<div align="center">
+  <img src="reports/figures/03_daily_trend_conversion.png" width="800px" alt="Daily Conversion Trend" />
+</div>
+
+### Revenue & Spend Density Comparison
+Converting visitors spent more on average in Treatment ($+\$0.81$ ARPU), without cannibalizing high-value order sizes.
+
+<div align="center">
+  <img src="reports/figures/04_revenue_distribution.png" width="800px" alt="Revenue Distribution" />
+</div>
+
+---
+
+## 💼 8. Executive Ship / No-Ship Recommendation
+
+<div align="center">
+
+### 🟢 **FINAL VERDICT: SHIP VARIANT B (100% ROLLOUT)**
+
+</div>
+
+### Business Case & Financial Model
+- **Monthly Landing Page Visitors**: $150,000$ unique visits.
 - **Incremental Conversions**: $+1.44\%$ absolute lift $\rightarrow$ **$+2,160$ additional monthly customers**.
-- **Incremental Revenue**: $+9.85\%$ ARPU lift ($\approx +\$0.81$ per visitor) $\rightarrow$ **$+\$121,500$ incremental gross revenue per month**.
-- **Annualized Projected Value**: **$\approx \mathbf{\$1.458\text{ Million ARR}}$**.
-- **Implementation & Infrastructure Cost**: $<\$25,000$ one-time engineering & QA cost.
-- **Payback Period**: Less than **7 business days**.
+- **Incremental Gross Revenue**: $+9.85\%$ ARPU lift $\rightarrow$ **$+\$121,500$ per month**.
+- **Annualized Financial Lift**: **$\mathbf{+\$1,458,000\text{ ARR}}$**.
+- **Implementation Cost**: $<\$25,000$ (Engineering & QA).
+- **Payback Period**: **$< 7\text{ Business Days}$**.
 
 ---
 
-## 🚀 8. Ship / No-Ship Recommendation
+## 💻 9. Power BI & Interactive Dashboard
 
-### 🟢 FINAL DECISION: SHIP TO 100% TRAFFIC (FULL ROLLOUT)
+This project includes both a **Power BI production asset package** and a **live standalone web dashboard mockup**:
 
-#### Justification:
-1. **Statistical Certainty**: The conversion lift is decisive ($p = 1.15 \times 10^{-8}$) with zero SRM anomaly.
-2. **Economic Viability**: The $+9.85\%$ lift in ARPU proves users are not merely converting on discounted items, but generating substantial incremental gross merchandise value ($+\$1.458\text{M}$ ARR).
-3. **Uniform User Experience**: No device or regional cohort experienced conversion degradation.
-4. **Engagement Uplift**: Session duration increased by $+11.58\%$, reflecting higher browsing engagement and lower friction.
-
----
-
-## 💻 9. Interactive Power BI / Tableau Dashboard
-
-- **Standalone Interactive Dashboard**: Open [`powerbi/dashboard_mockup.html`](./powerbi/dashboard_mockup.html) in any browser to explore the live interactive dashboard with Chart.js and KPI scorecards.
-- **Power BI Setup & DAX Library**: Follow the step-by-step setup guide in [`powerbi/powerbi_setup_guide.md`](./powerbi/powerbi_setup_guide.md) with production DAX formulas in [`powerbi/powerbi_dax_measures.dax`](./powerbi/powerbi_dax_measures.dax).
-
----
-
-## 📂 10. Repository Structure
+1. **Interactive Web Dashboard**: Open [`powerbi/dashboard_mockup.html`](powerbi/dashboard_mockup.html) in your browser for a live preview with interactive charts and slicers.
+2. **Production DAX Formulas**: Full library in [`powerbi/powerbi_dax_measures.dax`](powerbi/powerbi_dax_measures.dax).
+3. **Data Dictionary & Setup Guide**: Documented in [`powerbi/powerbi_setup_guide.md`](powerbi/powerbi_setup_guide.md).
 
 ```
-market project/
-│
+   ┌─────────────────────────────────────────────────────────────┐
+   │                  POWER BI DASHBOARD LAYOUT                  │
+   ├──────────────────┬──────────────────┬───────────────────────┤
+   │  Total Visitors  │  Conversion CR   │     ARPU / Spend      │
+   │      74,513      │  14.45% (+11.1%) │     $8.99 (+$0.81)    │
+   ├──────────────────┴──────────────────┼───────────────────────┤
+   │  30-Day Cumulative CR Convergence   │  CR by Channel        │
+   │  [ Line Chart: Treat vs Ctrl ]      │  [ Clustered Bar ]    │
+   ├─────────────────────────────────────┼───────────────────────┤
+   │  Device Segmentation Matrix         │  Power Curve Sizing   │
+   │  [ Desktop | Mobile | Tablet ]      │  [ Power vs Sample ]  │
+   └─────────────────────────────────────┴───────────────────────┘
+```
+
+---
+
+## 📂 10. Repository Structure & Reproducibility
+
+```
+marketing-ab-testing-conversion-analysis/
 ├── README.md                               <- Executive project summary & statistical report
 ├── requirements.txt                        <- Python environment dependencies
 ├── .gitignore                              <- Git ignore configuration
 │
 ├── data/
-│   ├── raw/
-│   │   └── marketing_ab_test_raw.csv       <- Raw telemetry events (120,000 rows)
+│   ├── raw/marketing_ab_test_raw.csv       <- Raw telemetry events (120,000 rows)
 │   └── processed/
 │       ├── ab_test_cleaned.csv             <- Deduplicated, validated dataset (74,513 rows)
 │       ├── ab_test_daily_metrics.csv       <- Pre-aggregated daily dimensional metrics
@@ -172,36 +269,34 @@ market project/
 │
 └── reports/
     ├── executive_summary_report.md         <- Detailed stakeholder decision memo
-    └── figures/
-        ├── 01_srm_check.png                <- SRM Chi-square allocation plot
-        ├── 02_conversion_rate_ci.png       <- Conversion rate bar chart with 95% CIs
-        ├── 03_daily_trend_conversion.png   <- Daily & cumulative conversion trajectories
-        ├── 04_revenue_distribution.png     <- ARPU & order spend density
-        ├── 05_statistical_power_curve.png  <- Power curves across sample sizes & lifts
-        └── 06_segmentation_forest_plot.png <- Subgroup relative lift forest plot
+    └── figures/                            <- High-resolution publication plots
+        ├── 01_srm_check.png
+        ├── 02_conversion_rate_ci.png
+        ├── 03_daily_trend_conversion.png
+        ├── 04_revenue_distribution.png
+        ├── 05_statistical_power_curve.png
+        └── 06_segmentation_forest_plot.png
+```
+
+### ⚡ Quickstart: Run Pipeline in 2 Minutes
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/gahlawataanchal69-ops/marketing-ab-testing-conversion-analysis.git
+cd marketing-ab-testing-conversion-analysis
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run complete end-to-end analysis
+python -m src.run_full_analysis
+
+# 4. Open Jupyter Notebooks
+jupyter notebook notebooks/
 ```
 
 ---
 
-## ⚡ How to Reproduce
-
-1. **Clone the repository**:
-   ```bash
-   git clone <repo-url>
-   cd "market project"
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Execute the complete analysis pipeline**:
-   ```bash
-   python -m src.run_full_analysis
-   ```
-
-4. **Launch Jupyter Notebooks**:
-   ```bash
-   jupyter notebook notebooks/
-   ```
+<div align="center">
+  <sub>Built for Data Analytics & Product Experimentation Portfolios • Author: Khushi Gahlawat</sub>
+</div>
