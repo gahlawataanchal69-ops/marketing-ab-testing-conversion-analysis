@@ -1,0 +1,102 @@
+{
+    "srm_test": {
+        "n_control": 37166,
+        "n_treatment": 37347,
+        "total_sample": 74513,
+        "expected_ratio": "50:50",
+        "observed_control_pct": 49.879,
+        "observed_treatment_pct": 50.121,
+        "chi2_statistic": 0.4397,
+        "p_value": 0.5072826224433705,
+        "srm_detected": false,
+        "verdict": "NO SRM DETECTED: Traffic split is statistically valid"
+    },
+    "conversion_rate_test": {
+        "n_control": 37166,
+        "n_treatment": 37347,
+        "conversions_control": 4835,
+        "conversions_treatment": 5396,
+        "cr_control": 0.13009,
+        "cr_treatment": 0.14448,
+        "cr_control_pct": 13.009,
+        "cr_treatment_pct": 14.448,
+        "ci_control_pct": [
+            12.671,
+            13.355
+        ],
+        "ci_treatment_pct": [
+            14.095,
+            14.809
+        ],
+        "absolute_lift_pct": 1.439,
+        "ci_absolute_lift_pct": [
+            0.945,
+            1.933
+        ],
+        "relative_lift_pct": 11.062,
+        "ci_relative_lift_pct": [
+            7.264,
+            14.86
+        ],
+        "z_statistic": 5.7069,
+        "p_value": 1.150714257214247e-08,
+        "alpha": 0.05,
+        "statistically_significant": true,
+        "conclusion": "Reject Null Hypothesis: Treatment shows statistically significant improvement"
+    },
+    "revenue_arpu_test": {
+        "metric": "revenue",
+        "n_control": 37166,
+        "n_treatment": 37347,
+        "mean_control": 8.18,
+        "mean_treatment": 8.986,
+        "std_control": 22.632,
+        "std_treatment": 23.411,
+        "absolute_diff": 0.806,
+        "ci_mean_diff": [
+            0.475,
+            1.136
+        ],
+        "relative_lift_pct": 9.849,
+        "t_statistic": 4.776,
+        "p_value_ttest": 1.7918795416057454e-06,
+        "p_value_mannwhitney": 2.3626723672137586e-08,
+        "cohens_d": 0.035,
+        "statistically_significant": true,
+        "degrees_of_freedom": 74448.5
+    },
+    "session_duration_test": {
+        "metric": "session_duration_sec",
+        "n_control": 37166,
+        "n_treatment": 37347,
+        "mean_control": 214.759,
+        "mean_treatment": 239.629,
+        "std_control": 128.119,
+        "std_treatment": 141.971,
+        "absolute_diff": 24.869,
+        "ci_mean_diff": [
+            22.928,
+            26.811
+        ],
+        "relative_lift_pct": 11.58,
+        "t_statistic": 25.1045,
+        "p_value_ttest": 1.7001112611137644e-138,
+        "p_value_mannwhitney": 2.2646445363064268e-157,
+        "cohens_d": 0.1839,
+        "statistically_significant": true,
+        "degrees_of_freedom": 73809.8
+    },
+    "sample_sizing_5pct_mde": {
+        "baseline_conversion_rate": 0.13009,
+        "treatment_target_cr": 0.13659,
+        "mde_relative_pct": 5.0,
+        "mde_absolute_pct": 0.65,
+        "significance_level_alpha": 0.05,
+        "statistical_power_target": 0.8,
+        "cohens_h_effect_size": -0.01914,
+        "required_n_per_variant": 42876,
+        "required_total_sample_size": 85752,
+        "statsmodels_n_per_variant": 42872
+    },
+    "achieved_power_pct": 99.99111374422924
+}
